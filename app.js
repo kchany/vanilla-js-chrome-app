@@ -5,13 +5,13 @@
 */
 
 // HTML의 요소 가져오기
+const loginForm = document.querySelector('#login-form');
 const loginInput = document.querySelector('#login-form input');
-const loginButton = document.querySelector('#login-form button');
 
 // HTML의 login-input 클릭 시 호출
-function onLoginBtnClick() {
-  const inputValue = loginInput.value;
-  console.log(inputValue);
+function onLoginSubmit(event) {
+  event.preventDefault();
+  console.log(loginInput.value);
 }
 
-loginButton.addEventListener('click', onLoginBtnClick);
+loginForm.addEventListener('submit', onLoginSubmit);
