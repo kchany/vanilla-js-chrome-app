@@ -1,7 +1,7 @@
 /*
 작성자 : Chany
 작성 시작일 : 22. 03. 15
-최종 수정일 : 22. 03. 16
+최종 수정일 : 22. 03. 18
 */
 
 // HTML의 요소 가져오기
@@ -14,7 +14,7 @@ const HIDDEN_CLASSNAME = 'hidden';
 const USERNAME_KEY = 'username';
 
 // 새로운 변수
-const savedUsername = localStorage.getItem(USERNAME_KEY);
+const savedUsername = localStorage.getItem(USERNAME_KEY); // Local Storage에 저장된 사용자 이름
 
 // 상황에 따라 동작하는 로직
 // Local Storage가 비어있으면 (유저 이름 없음)
@@ -26,7 +26,7 @@ if (savedUsername === null) {
 // Local Storage에 유저 이름이 있으면
 else {
   // HTML의 h1에 입력받은 username 넣고, hidden class 사라지게
-  paintGreetings(savedUsername);
+  paintGreetings();
 }
 
 // 동작하는 함수들
@@ -35,19 +35,18 @@ else {
 function onLoginSubmit(event) {
   // submit의 기본 동작 막기
   event.preventDefault();
-  // 입력 받은 user name 저장
-  const username = loginInput.value;
   // form 제출 시, input form은 사라지게
   loginForm.classList.add(HIDDEN_CLASSNAME);
   // Local Storage에 입력받은 username 저장
-  localStorage.setItem(USERNAME_KEY, username);
+  localStorage.setItem(USERNAME_KEY, loginInput.value);
   // HTML의 h1에 입력받은 username 넣고, hidden class 사라지게
-  paintGreetings(username);
+  paintGreetings();
 }
 
 // submit 버튼 클릭시, 또는 이미 Local Storage에 유저 이름이 있는 경우 호출
 // HTML의 h1에 입력받은 username 넣고, hidden class 사라지게하는 함수
-function paintGreetings(username) {
+function paintGreetings() {
+  const username = localStorage.getItem(USERNAME_KEY);
   greeting.innerText = `Hello ${username}`;
   greeting.classList.remove(HIDDEN_CLASSNAME);
 }
