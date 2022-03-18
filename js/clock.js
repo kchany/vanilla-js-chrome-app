@@ -12,7 +12,13 @@ function getClock() {
   // JS의 날짜를 가져오는 객체
   const date = new Date();
   // HTML 요소에 시간을 넣어주기
-  clock.innerText = `${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`;
+  // 각각의 요소를 String으로 변환해주는 이유는 padStart를 사용하기 위함이다.
+  // padStart는 문자열에만 적용할 수 있는 함수이다.
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  clock.innerText = `${hours} : ${minutes} : ${seconds}`;
 }
 
 // setInterval만 사용해도 1초마다 함수가 실행되긴 하지만,
