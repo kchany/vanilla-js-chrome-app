@@ -11,13 +11,14 @@ const toDoList = document.getElementById('todo-list');
 
 // 새로운 변수
 const toDos = [];
+const TO_DO_KEY = 'toDos';
 
 // To Do List를 Local Storage에 저장하는 함수
 function saveToDos() {
   // Local Storage에는 오로지 string 형태만이 들어갈 수 있다.
   // 하지만 우리는 배열의 형태로 Local Storage에 저장하고 싶기 때문에,
   // JSON.stringify를 이용한다.
-  localStorage.setItem('toDos', JSON.stringify(toDos));
+  localStorage.setItem(TO_DO_KEY, JSON.stringify(toDos));
 }
 
 // To Do List를 삭제하는 함수
@@ -61,11 +62,22 @@ function handleToDoSubmit(event) {
 
   // Local Storage에 저장하기 위해서 배열에 input 값을 넣는다.
   toDos.push(newToDo);
-  // 배열을 Local Storage에 저장하는 함수 호출
-  saveToDos();
   // 입력 받은 내용으로 To Do List를 그리는 함수 호출
   paintToDo(newToDo);
+  // 배열을 Local Storage에 저장하는 함수 호출
+  saveToDos();
 }
 
 // submit event를 감지
 toDoForm.addEventListener('submit', handleToDoSubmit);
+
+// Local Storage에 있는 to do list 배열을 불러오기
+const savedToDos = localStorage.getItem(TO_DO_KEY);
+
+// Local Storage에 toDos가 존재하는 경우 실행
+if (saveToDos !== null) {
+  // JSON. parse를 이용해 string 형태의 배열을 진짜 사용가능한 배열로 바꾸어준다.
+  const parsedToDos = JSON.parse(savedToDos);
+  // 배열 안에 있는 각각의 item들에 console를 찍어 제대로 가져오는지 확인
+  parsedToDos.forEach(item => console.log('hello', item));
+}
