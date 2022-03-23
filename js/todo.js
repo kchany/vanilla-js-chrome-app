@@ -9,16 +9,30 @@ const toDoForm = document.getElementById('todo-form');
 const toDoInput = toDoForm.querySelector('input');
 const toDoList = document.getElementById('todo-list');
 
+// To Do List를 삭제하는 함수
+function deleteToDo(event) {
+  // deleteToDo 함수의 역할은, 삭제 버튼이 클릭되었을 때, 해당 이벤트를 감지해서 어느 li가 클릭되었는지를 파악하고,
+  // 해당 li를 삭제하는 것이다.
+
+  // click event가 발생한 곳의 부모 요소를 찾고, 해당 버튼의 부모 li를 지운다.
+  const li = event.target.parentElement;
+  li.remove();
+}
+
 // To Do List를 그리는 함수
 function paintToDo(newToDo) {
   // 우리가 List에 넣을 HTML 요소들 (새로운 To Do가 입력되면, ul 안에 li 안의 span을 만들어 넣고 싶다.)
   const li = document.createElement('li');
   const span = document.createElement('span');
-
-  // li의 안에 span을 넣어준다.
-  li.appendChild(span);
   // span의 내용을 사용자가 입력한 To Do로 넣어준다.
   span.innerText = newToDo;
+  // span과 함께 해당 to do list를 삭제할 수 있는 버튼도 같이 넣어준다.
+  const button = document.createElement('button');
+  button.innerText = '❌';
+  button.addEventListener('click', deleteToDo);
+  // li의 안에 span과 삭제 button을 넣어준다.
+  li.appendChild(span);
+  li.appendChild(button);
   // 마지막으로, HTML에서 만들어놓은 ul에 li를 넣어준다.
   toDoList.appendChild(li);
 }
