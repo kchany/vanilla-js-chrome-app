@@ -1,7 +1,7 @@
 /*
 작성자 : Chany
 작성 시작일 : 22. 03. 23
-최종 수정일 : 22. 03. 23
+최종 수정일 : 22. 03. 24
 */
 
 // HTML 요소 가져오기
@@ -29,15 +29,21 @@ function deleteToDo(event) {
   // click event가 발생한 곳의 부모 요소를 찾고, 해당 버튼의 부모 li를 지운다.
   const li = event.target.parentElement;
   li.remove();
+  // filter 함수를 이용해 현재 클릭된 li의 id와 기존 toDos 배열의 요소의 id와 비교해서, 다른 경우에만 toDos 배열에 추가해준다.
+  toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+  // 새로운 toDos 배열을 Local Storage에 저장한다.
+  saveToDos();
 }
 
 // To Do List를 그리는 함수
 function paintToDo(newToDo) {
   // 우리가 List에 넣을 HTML 요소들 (새로운 To Do가 입력되면, ul 안에 li 안의 span을 만들어 넣고 싶다.)
   const li = document.createElement('li');
+  // 해당 li의 id는 사용자가 입력한 newToDo 객체의 id값이 된다.
+  li.id = newToDo.id;
   const span = document.createElement('span');
-  // span의 내용을 사용자가 입력한 To Do로 넣어준다.
-  span.innerText = newToDo;
+  // span의 내용을 사용자가 입력한 To Do 객체의 text를 넣어준다.
+  span.innerText = newToDo.text;
   // span과 함께 해당 to do list를 삭제할 수 있는 버튼도 같이 넣어준다.
   // 삭제 버튼은 클릭 이벤트를 감지해서 해당 버튼이 클릭된 곳의 li를 지워주는 함수를 호출한다.
   const button = document.createElement('button');
@@ -59,11 +65,15 @@ function handleToDoSubmit(event) {
   const newToDo = toDoInput.value;
   // input을 비운다.
   toDoInput.value = '';
-
+  // To Do 데이터를 삭제하기 위해 객체 형식으로 만들고, id와 text 값을 넣어준다.
+  const newToDoObj = {
+    id: Date.now(),
+    text: newToDo,
+  };
   // Local Storage에 저장하기 위해서 배열에 input 값을 넣는다.
-  toDos.push(newToDo);
+  toDos.push(newToDoObj);
   // 입력 받은 내용으로 To Do List를 그리는 함수 호출
-  paintToDo(newToDo);
+  paintToDo(newToDoObj);
   // 배열을 Local Storage에 저장하는 함수 호출
   saveToDos();
 }
