@@ -10,7 +10,7 @@ const toDoInput = toDoForm.querySelector('input');
 const toDoList = document.getElementById('todo-list');
 
 // 새로운 변수
-const toDos = [];
+let toDos = [];
 const TO_DO_KEY = 'toDos';
 
 // To Do List를 Local Storage에 저장하는 함수
@@ -75,9 +75,11 @@ toDoForm.addEventListener('submit', handleToDoSubmit);
 const savedToDos = localStorage.getItem(TO_DO_KEY);
 
 // Local Storage에 toDos가 존재하는 경우 실행
-if (saveToDos !== null) {
+if (savedToDos !== null) {
   // JSON. parse를 이용해 string 형태의 배열을 진짜 사용가능한 배열로 바꾸어준다.
   const parsedToDos = JSON.parse(savedToDos);
-  // 배열 안에 있는 각각의 item들에 console를 찍어 제대로 가져오는지 확인
-  parsedToDos.forEach(item => console.log('hello', item));
+  // 이전에 Local Storage에 저장되어있던 toDos 배열을 가져오기
+  toDos = parsedToDos;
+  // 배열 안에 있는 각각의 item들에 paintToDo 함수를 실행
+  parsedToDos.forEach(paintToDo);
 }
