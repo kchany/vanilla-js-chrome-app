@@ -9,6 +9,17 @@ const toDoForm = document.getElementById('todo-form');
 const toDoInput = toDoForm.querySelector('input');
 const toDoList = document.getElementById('todo-list');
 
+// 새로운 변수
+const toDos = [];
+
+// To Do List를 Local Storage에 저장하는 함수
+function saveToDos() {
+  // Local Storage에는 오로지 string 형태만이 들어갈 수 있다.
+  // 하지만 우리는 배열의 형태로 Local Storage에 저장하고 싶기 때문에,
+  // JSON.stringify를 이용한다.
+  localStorage.setItem('toDos', JSON.stringify(toDos));
+}
+
 // To Do List를 삭제하는 함수
 function deleteToDo(event) {
   // deleteToDo 함수의 역할은, 삭제 버튼이 클릭되었을 때, 해당 이벤트를 감지해서 어느 li가 클릭되었는지를 파악하고,
@@ -27,6 +38,7 @@ function paintToDo(newToDo) {
   // span의 내용을 사용자가 입력한 To Do로 넣어준다.
   span.innerText = newToDo;
   // span과 함께 해당 to do list를 삭제할 수 있는 버튼도 같이 넣어준다.
+  // 삭제 버튼은 클릭 이벤트를 감지해서 해당 버튼이 클릭된 곳의 li를 지워주는 함수를 호출한다.
   const button = document.createElement('button');
   button.innerText = '❌';
   button.addEventListener('click', deleteToDo);
@@ -46,6 +58,11 @@ function handleToDoSubmit(event) {
   const newToDo = toDoInput.value;
   // input을 비운다.
   toDoInput.value = '';
+
+  // Local Storage에 저장하기 위해서 배열에 input 값을 넣는다.
+  toDos.push(newToDo);
+  // 배열을 Local Storage에 저장하는 함수 호출
+  saveToDos();
   // 입력 받은 내용으로 To Do List를 그리는 함수 호출
   paintToDo(newToDo);
 }
